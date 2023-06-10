@@ -14,7 +14,7 @@ function App() {
     setData({ ...data, ...{ [name]: value } });
   };
   return (
-    <form action="" onSubmit={submitForm}>
+    <form action="" onSubmit={submitForm}> 
       <div>
         <input
           type="text"
