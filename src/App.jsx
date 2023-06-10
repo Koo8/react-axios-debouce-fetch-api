@@ -1,122 +1,59 @@
-import { useState } from 'react';
-import './App.css'
-// create recusursive component for file tree presentation.
+import { useEffect, useState } from "react";
+import "./App.css";
 
-const fileTree = {
-
-  children: [
-    {
-      name: 'node_module',
-      children: [
-        {
-          name: 'bin',
-          children: [
-            {
-              name: 'acorn',
-
-            },
-            {
-              name: 'browerserslist'
-            }
-          ]
-        }
-      ]
-    },
-    {
-      name: 'public',
-      children: [
-        {
-         name: 'vite.svg'
-       }
-     ] 
-    },
-    {
-      name: 'src',
-      children: [
-        {
-          name: 'assets',
-          chidlren: [
-            {
-              name:'react.svg'
-            }
-          ]
-        },
-        {
-          name: 'App.css'
-        },
-        {
-          name: 'App.jsx'
-        },
-        {
-          name: 'main.jsx'
-        },
-
-      ]
-    },
-    {
-      name: 'index.html'
-    },
-    {
-      name: 'package.json'
-    }
-
-  ]
-}
-
-
-
-// recursive component = one prop is conditionally existing, if true, then do the same mapping again.
-const Entry = ({ depth, filename, filechildren }) => {
-  const [open, setOpen] = useState(false);
-
-  return (
-    <div>
-      {filechildren ? <button onClick={()=>setOpen(!open)} style={{ margin:0, padding:0, cursor:'pointer',width:'20px'}}>{open ? ' - '  : ' + '}</button> : null}
-      {filename}
-      
-      {filechildren?.map((ent) => {
-        return (
-          <div
-            key={Math.random(100)}
-            style={{ marginLeft: `${(depth + 1) * 20}px` }}
-          >
-            {open && (
-              <Entry
-                filename={ent.name}
-                filechildren={ent.children}
-                depth={depth + 1}
-              />
-            )}
-          </div>
-        );
-      })}
-    </div>
-  );
-};
-
-
+// form submission
 function App() {
-  // let depth = 0;
-  
+  const [data, setData] = useState({});
+
+  const submitForm = (e) => {
+    e.preventDefault();
+    console.log(data);
+  };
+
+  const getInput = (value, name) => {
+    setData({ ...data, ...{ [name]: value } });
+  };
   return (
-    <div>
-      {fileTree.children.map((ent => {
-        return (
-          <div key={Math.random(100)}>
-            <Entry
-              filename={ent.name}
-              filechildren={ent.children}
-              depth={0}
-              
-            />
-          </div>
-        );
-      }))}
-   </div>
-  )
+    <form action="" onSubmit={submitForm}>
+      <div>
+        <input
+          type="text"
+          name="name"
+          placeholder="name"
+          onChange={(e) => getInput(e.target.value, e.target.name)}
+        />
+        <input
+          type="number"
+          name="age"
+          placeholder="age"
+          onChange={(e) => getInput(e.target.value, e.target.name)}
+        />
+        <input
+          type="date"
+          name="date"
+          onChange={(e) => getInput(e.target.value, e.target.name)}
+        />
+        <input
+          type="file"
+          name="file"
+          onChange={(e) => getInput(e.target.value, e.target.name)}
+        />
+        <input
+          type="time"
+          name="time"
+          onChange={(e) => getInput(e.target.value, e.target.name)}
+        />
+        <input
+          type="range"
+          name="range"
+          onChange={(e) => getInput(e.target.value, e.target.name)}
+        />
+
+        <button type="submit">Submit</button>
+        <button type="reset"> Reset</button>
+      </div>
+    </form>
+  );
 }
 
-
-
-
-export default App
+export default App;
